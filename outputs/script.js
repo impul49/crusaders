@@ -46,6 +46,9 @@ const translations = {
     phoneCountryLabel: "Fixed country code",
     phoneHint: "Enter the number without the first 0.",
     submitButton: "Enlist my chapter",
+    submitting: "Submitting…",
+    submissionSuccess: "Successfully registered",
+    submissionError: "Something went wrong. Please try again.",
     privacy: "Submissions are forwarded via FormSubmit to the chapter inbox.",
     subject: "New Crusaders Chapter Interest"
   },
@@ -77,6 +80,9 @@ const translations = {
     phoneCountryLabel: "Fest eingestellte Landesvorwahl",
     phoneHint: "Gib die Nummer ohne die führende 0 ein.",
     submitButton: "Mein Interesse anmelden",
+    submitting: "Wird gesendet…",
+    submissionSuccess: "Erfolgreich angemeldet",
+    submissionError: "Das hat leider nicht funktioniert. Bitte versuche es erneut.",
     privacy: "Deine Angaben werden über FormSubmit an das Postfach für Crusaders-Anfragen weitergeleitet.",
     subject: "Neue Anfrage zu einer Crusaders-Ortsgruppe"
   }
@@ -84,7 +90,12 @@ const translations = {
 
 const stateSelect = document.getElementById("state");
 const citySelect = document.getElementById("city");
+const registryForm = document.getElementById("registry-form");
+const formStatus = document.getElementById("form-status");
+const submitButton = registryForm.querySelector('button[type="submit"]');
+const submitButtonLabel = submitButton.querySelector("[data-i18n]");
 let currentLanguage = "en";
+let isSubmitting = false;
 
 function updateCityOptions(preserveSelection = false) {
   const selectedCity = preserveSelection ? citySelect.value : "";
@@ -118,6 +129,7 @@ function setLanguage(language) {
   document.querySelectorAll("[data-i18n]").forEach(function (element) {
     element.textContent = copy[element.dataset.i18n];
   });
+  submitButtonLabel.textContent = copy[isSubmitting ? "submitting" : "submitButton"];
   document.querySelectorAll("[data-i18n-placeholder]").forEach(function (element) {
     element.placeholder = copy[element.dataset.i18nPlaceholder];
   });
@@ -138,6 +150,53 @@ function setLanguage(language) {
 
 stateSelect.addEventListener("change", function () {
   updateCityOptions(false);
+});
+
+registryForm.addEventListener("submit", async function (event) {
+  event.preventDefault();
+  if (isSubmitting) return;
+
+  formStatus.classList.remove("visible", "error");
+  formStatus.textContent = "";
+  formStatus.removeAttribute("data-i18n");
+  isSubmitting = true;
+  submitButton.disabled = true;
+  submitButtonLabel.textContent = translations[currentLanguage].submitting;
+
+  try {
+    const payload = Object.fromEntries(new FormData(registryForm).entries());
+    const response = await fetch("https://formsubmit.co/ajax/lvnde2005@gmail.com", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+    const result = await response.json();
+
+    if (!response.ok || result.success === false || result.success === "false") {
+      throw new Error("Form submission failed");
+    }
+
+    registryForm.reset();
+    updateCityOptions(false);
+    formStatus.dataset.i18n = "submissionSuccess";
+    formStatus.textContent = translations[currentLanguage].submissionSuccess;
+    formStatus.setAttribute("role", "status");
+    formStatus.setAttribute("aria-live", "polite");
+    formStatus.classList.add("visible");
+  } catch (error) {
+    formStatus.dataset.i18n = "submissionError";
+    formStatus.textContent = translations[currentLanguage].submissionError;
+    formStatus.setAttribute("role", "alert");
+    formStatus.setAttribute("aria-live", "assertive");
+    formStatus.classList.add("visible", "error");
+  } finally {
+    isSubmitting = false;
+    submitButton.disabled = false;
+    submitButtonLabel.textContent = translations[currentLanguage].submitButton;
+  }
 });
 
 document.querySelectorAll("[data-language]").forEach(function (button) {

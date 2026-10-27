@@ -72,6 +72,8 @@ button span[aria-hidden="true"] { color: #ead8a4; font-size: 17px; line-height: 
 .privacy { margin: 0; color: #777f77; font-size: 10px; line-height: 1.55; }
 .message { display: none; grid-column: 1 / -1; margin: 0; padding: 12px 14px; border-left: 3px solid var(--green); background: #edf0e9; color: #425047; font-size: 11px; line-height: 1.6; }
 .message.visible { display: block; }
+.message.error { border-left-color: #9d3d3f; background: #f5e9e8; color: #783537; }
+button:disabled { cursor: wait; opacity: .72; }
 :focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; }
 @media (max-width: 780px) {
   .language-switch { top: 16px; right: 20px; }
