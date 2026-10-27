@@ -11,15 +11,19 @@
 <body>
   <main>
     <section class="opening" aria-labelledby="opening-title">
+      <div class="language-switch" role="group" aria-label="Choose language">
+        <button class="language-option" type="button" data-language="en" aria-pressed="true">EN</button>
+        <button class="language-option" type="button" data-language="de" aria-pressed="false">DE</button>
+      </div>
       <div class="opening-inner">
         <div class="copy">
-          <p class="eyebrow">A local mobilization</p>
+          <p class="eyebrow" data-i18n="eyebrow">A local mobilization</p>
           <h1 id="opening-title">JOIN <span>JAKE LANG &amp; LEON SINGH</span> &amp; YOUR LOCAL <span>CRUSADERS</span> CHAPTER</h1>
-          <p class="slogan">Take a stand against mass migration</p>
-          <p class="intro">Tell us your city and state to register your interest in joining the crusaders. LEON SINGH will reach out to you immediately!</p>
-          <a class="jump-link" href="#registry">Enlist your chapter <span aria-hidden="true">↓</span></a>
+          <p class="slogan" data-i18n="slogan">Take a stand against mass migration</p>
+          <p class="intro" data-i18n="intro">Tell us your city and state to register your interest in joining the crusaders. LEON SINGH will reach out to you immediately!</p>
+          <a class="jump-link" href="#registry"><span data-i18n="openingCta">Enlist your chapter</span> <span aria-hidden="true">↓</span></a>
         </div>
-        <div class="cross-panel" role="img" aria-label="A Christian cross in a circular emblem">
+        <div class="cross-panel" role="img" aria-label="A Christian cross in a circular emblem" data-i18n-aria="crossLabel">
           <span class="panel-corner" aria-hidden="true"></span>
           <svg class="cross-art" viewBox="0 0 154 220" aria-hidden="true" focusable="false">
             <circle cx="77" cy="110" r="70" fill="none" stroke="#d1b875" stroke-width="1.5" opacity=".85" />
@@ -35,23 +39,23 @@
     <section class="registry" id="registry" aria-labelledby="registry-title">
       <div class="registry-wrap">
         <div class="registry-heading">
-          <div><p class="registry-kicker">Enlistment form</p><h2 id="registry-title">Crusaders Chapter Registry</h2></div>
-          <p class="registry-note">Share your location and interest. We’ll follow up when local organizer details are available.</p>
+          <div><p class="registry-kicker" data-i18n="formKicker">Enlistment form</p><h2 id="registry-title" data-i18n="formTitle">Crusaders Chapter Registry</h2></div>
+          <p class="registry-note" data-i18n="registryNote">Share your location and interest. We’ll follow up when local organizer details are available.</p>
         </div>
         <div class="registry-card">
-          <p class="form-intro">Register your interest in joining or starting a local chapter.</p>
+          <p class="form-intro" data-i18n="formIntro">Register your interest in joining or starting a local chapter.</p>
           <form id="registry-form" action="https://formsubmit.co/lvnde2005@gmail.com" method="POST">
-            <input type="hidden" name="_subject" value="New Crusaders Chapter Interest">
+            <input id="form-subject" type="hidden" name="_subject" value="New Crusaders Chapter Interest">
             <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none">
-            <div class="field"><label for="first-name">First name *</label><input id="first-name" name="first-name" autocomplete="given-name" placeholder="First name" required></div>
-            <div class="field"><label for="last-name">Last name *</label><input id="last-name" name="last-name" autocomplete="family-name" placeholder="Last name" required></div>
-            <div class="field"><label for="state">State *</label><select id="state" name="state" autocomplete="address-level1" required><option value="">Select a state</option><option>Baden-Württemberg</option><option>Bayern</option><option>Berlin</option><option>Brandenburg</option><option>Bremen</option><option>Hamburg</option><option>Hessen</option><option>Mecklenburg-Vorpommern</option><option>Niedersachsen</option><option>Nordrhein-Westfalen</option><option>Rheinland-Pfalz</option><option>Saarland</option><option>Sachsen</option><option>Sachsen-Anhalt</option><option>Schleswig-Holstein</option><option>Thüringen</option></select></div>
-            <div class="field"><label for="city">City *</label><select id="city" name="city" autocomplete="address-level2" required disabled><option value="">Select a state first</option></select></div>
-            <div class="field"><label for="email">Email *</label><input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required></div>
-            <div class="field"><label for="phone">Cell phone *</label><div class="phone-field"><span class="phone-prefix" aria-label="Fixed country code">+49</span><input id="phone" name="phone" type="tel" autocomplete="tel-national" inputmode="tel" placeholder="151 23456789" aria-describedby="phone-hint" required></div><span class="field-hint" id="phone-hint">Enter the number without the first 0.</span><input type="hidden" name="phone-country-code" value="+49"></div>
+            <div class="field"><label for="first-name" data-i18n="firstNameLabel">First name *</label><input id="first-name" name="first-name" autocomplete="given-name" placeholder="First name" data-i18n-placeholder="firstNamePlaceholder" required></div>
+            <div class="field"><label for="last-name" data-i18n="lastNameLabel">Last name *</label><input id="last-name" name="last-name" autocomplete="family-name" placeholder="Last name" data-i18n-placeholder="lastNamePlaceholder" required></div>
+            <div class="field"><label for="state" data-i18n="stateLabel">State *</label><select id="state" name="state" autocomplete="address-level1" required><option value="" data-i18n="statePlaceholder">Select a state</option><option>Baden-Württemberg</option><option>Bayern</option><option>Berlin</option><option>Brandenburg</option><option>Bremen</option><option>Hamburg</option><option>Hessen</option><option>Mecklenburg-Vorpommern</option><option>Niedersachsen</option><option>Nordrhein-Westfalen</option><option>Rheinland-Pfalz</option><option>Saarland</option><option>Sachsen</option><option>Sachsen-Anhalt</option><option>Schleswig-Holstein</option><option>Thüringen</option></select></div>
+            <div class="field"><label for="city" data-i18n="cityLabel">City *</label><select id="city" name="city" autocomplete="address-level2" required disabled><option value="" data-i18n="cityStateFirst">Select a state first</option></select></div>
+            <div class="field"><label for="email" data-i18n="emailLabel">Email *</label><input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" data-i18n-placeholder="emailPlaceholder" required></div>
+            <div class="field"><label for="phone" data-i18n="phoneLabel">Cell phone *</label><div class="phone-field"><span class="phone-prefix" aria-label="Fixed country code" data-i18n-aria="phoneCountryLabel">+49</span><input id="phone" name="phone" type="tel" autocomplete="tel-national" inputmode="tel" placeholder="151 23456789" aria-describedby="phone-hint" required></div><span class="field-hint" id="phone-hint" data-i18n="phoneHint">Enter the number without the first 0.</span><input type="hidden" name="phone-country-code" value="+49"></div>
             <div class="submit-row">
-              <button type="submit">Enlist my chapter <span aria-hidden="true">→</span></button>
-              <p class="privacy">Submissions are forwarded via FormSubmit to the chapter inbox.</p>
+              <button type="submit"><span data-i18n="submitButton">Enlist my chapter</span> <span aria-hidden="true">→</span></button>
+              <p class="privacy" data-i18n="privacy">Submissions are forwarded via FormSubmit to the chapter inbox.</p>
             </div>
           </form>
         </div>
