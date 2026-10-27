@@ -49,6 +49,7 @@ const translations = {
     submitting: "Submitting…",
     submissionSuccess: "Successfully registered",
     submissionError: "Something went wrong. Please try again.",
+    submissionLocalFile: "Open the live website to submit this form; it cannot be sent from a local file preview.",
     privacy: "Submissions are forwarded via FormSubmit to the chapter inbox.",
     subject: "New Crusaders Chapter Interest"
   },
@@ -83,6 +84,7 @@ const translations = {
     submitting: "Wird gesendet…",
     submissionSuccess: "Erfolgreich angemeldet",
     submissionError: "Das hat leider nicht funktioniert. Bitte versuche es erneut.",
+    submissionLocalFile: "Bitte öffne die Live-Website, um das Formular abzusenden. Aus der lokalen Dateivorschau funktioniert es nicht.",
     privacy: "Deine Angaben werden über FormSubmit an das Postfach für Crusaders-Anfragen weitergeleitet.",
     subject: "Neue Anfrage zu einer Crusaders-Ortsgruppe"
   }
@@ -159,6 +161,16 @@ registryForm.addEventListener("submit", async function (event) {
   formStatus.classList.remove("visible", "error");
   formStatus.textContent = "";
   formStatus.removeAttribute("data-i18n");
+
+  if (window.location.protocol === "file:") {
+    formStatus.dataset.i18n = "submissionLocalFile";
+    formStatus.textContent = translations[currentLanguage].submissionLocalFile;
+    formStatus.setAttribute("role", "status");
+    formStatus.setAttribute("aria-live", "polite");
+    formStatus.classList.add("visible");
+    return;
+  }
+
   isSubmitting = true;
   submitButton.disabled = true;
   submitButtonLabel.textContent = translations[currentLanguage].submitting;
@@ -167,11 +179,8 @@ registryForm.addEventListener("submit", async function (event) {
     const payload = Object.fromEntries(new FormData(registryForm).entries());
     const response = await fetch("https://formsubmit.co/ajax/lvnde2005@gmail.com", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify(payload)
+      headers: { "Accept": "application/json" },
+      body: new URLSearchParams(payload)
     });
     const result = await response.json();
 
